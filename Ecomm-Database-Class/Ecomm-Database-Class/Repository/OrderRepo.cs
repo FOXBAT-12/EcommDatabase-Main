@@ -1,10 +1,11 @@
 ﻿using Ecomm_Database_Class.Model;
 using Microsoft.EntityFrameworkCore;
 using Ecomm_Database_Class.Data;
+using Ecomm_Database_Class.Repository.IRepository;
 
 namespace Ecomm_Database_Class.Repository
 {
-    public class OrderRepo
+    public class OrderRepo : IOrderRepo
     {
         private readonly AppDbContext _context;
 
