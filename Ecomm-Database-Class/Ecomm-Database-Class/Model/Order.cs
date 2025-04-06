@@ -18,11 +18,11 @@ namespace Ecomm_Database_Class.Model
 
         [Required(ErrorMessage = "ShippingAddress is required")]
         [StringLength(500, ErrorMessage = "ShippingAddress can't be longer than 500 characters")]
-        public string ShippingAddress { get; set; }
+        public string? ShippingAddress { get; set; }
 
         
-        public string OrderStatus { get; set; }
+        public string? OrderStatus { get; set; }
 
-        public string PaymentStatus { get; set; }
+        public string? PaymentStatus { get; set; }
     }
 }
