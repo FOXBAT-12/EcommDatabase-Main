@@ -28,6 +28,7 @@ namespace EcommerceWebApi.Controllers
             }
             catch (Exception)
             {
+                // Log the exception (not shown here for brevity)
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -46,6 +47,7 @@ namespace EcommerceWebApi.Controllers
             }
             catch (Exception ex)
             {
+                // Log the exception (not shown here for brevity)
                 return StatusCode(500, "Internal server error");
             }
         }
