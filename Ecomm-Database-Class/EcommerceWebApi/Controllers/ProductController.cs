@@ -67,28 +67,6 @@ namespace EcommerceWebApi.Controllers
             var products = await _repo.GetBestSellingProductsAsync(count);
             return Ok(products);
         }
-        [HttpPost("Upload")]
-        public async Task<IActionResult> UploadProductWithImage([FromForm] Product product, IFormFile image)
-        {
-            if(image != null && image.Length > 0)
-            {
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await image.CopyToAsync(stream);
-                }
-                product.ImageUrl = "/images/" + uniqueFileName;
-            }
-
-            await _repo.AddAsync(product);  
-            return Ok();
-        }
     }
 }

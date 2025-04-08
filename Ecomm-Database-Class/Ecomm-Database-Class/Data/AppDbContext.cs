@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks; 
 using Ecomm_Database_Class.Model;
 using Microsoft.Data.SqlClient;
-using System.Data;
+using System.Data;    
 
 namespace Ecomm_Database_Class.Data           
 {

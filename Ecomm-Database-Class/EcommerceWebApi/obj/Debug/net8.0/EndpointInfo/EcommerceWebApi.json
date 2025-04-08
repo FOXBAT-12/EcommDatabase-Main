@@ -795,195 +795,6 @@
         }
       }
     },
-    "/api/Product/Upload": {
-      "post": {
-        "tags": [
-          "Product"
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "Id": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "Name": {
-                    "type": "string"
-                  },
-                  "Brand": {
-                    "type": "string"
-                  },
-                  "Price": {
-                    "type": "number",
-                    "format": "double"
-                  },
-                  "Description": {
-                    "type": "string"
-                  },
-                  "ImageUrl": {
-                    "type": "string"
-                  },
-                  "Quantity": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "CategoryId": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "Category.Id": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "Category.Name": {
-                    "type": "string"
-                  },
-                  "Category.SubCategories": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/SubCategory"
-                    }
-                  },
-                  "Category.Products": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Product"
-                    }
-                  },
-                  "SubCategoryId": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "SubCategory.Id": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "SubCategory.Name": {
-                    "type": "string"
-                  },
-                  "SubCategory.CategoryId": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "SubCategory.Category.Id": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "SubCategory.Category.Name": {
-                    "type": "string"
-                  },
-                  "SubCategory.Category.SubCategories": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/SubCategory"
-                    }
-                  },
-                  "SubCategory.Category.Products": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Product"
-                    }
-                  },
-                  "SubCategory.Products": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Product"
-                    }
-                  },
-                  "SoldCount": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "image": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              },
-              "encoding": {
-                "Id": {
-                  "style": "form"
-                },
-                "Name": {
-                  "style": "form"
-                },
-                "Brand": {
-                  "style": "form"
-                },
-                "Price": {
-                  "style": "form"
-                },
-                "Description": {
-                  "style": "form"
-                },
-                "ImageUrl": {
-                  "style": "form"
-                },
-                "Quantity": {
-                  "style": "form"
-                },
-                "CategoryId": {
-                  "style": "form"
-                },
-                "Category.Id": {
-                  "style": "form"
-                },
-                "Category.Name": {
-                  "style": "form"
-                },
-                "Category.SubCategories": {
-                  "style": "form"
-                },
-                "Category.Products": {
-                  "style": "form"
-                },
-                "SubCategoryId": {
-                  "style": "form"
-                },
-                "SubCategory.Id": {
-                  "style": "form"
-                },
-                "SubCategory.Name": {
-                  "style": "form"
-                },
-                "SubCategory.CategoryId": {
-                  "style": "form"
-                },
-                "SubCategory.Category.Id": {
-                  "style": "form"
-                },
-                "SubCategory.Category.Name": {
-                  "style": "form"
-                },
-                "SubCategory.Category.SubCategories": {
-                  "style": "form"
-                },
-                "SubCategory.Category.Products": {
-                  "style": "form"
-                },
-                "SubCategory.Products": {
-                  "style": "form"
-                },
-                "SoldCount": {
-                  "style": "form"
-                },
-                "image": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/SubCategory": {
       "get": {
         "tags": [
@@ -1259,8 +1070,7 @@
       },
       "Cart": {
         "required": [
-          "quantity",
-          "totalPrice"
+          "quantity"
         ],
         "type": "object",
         "properties": {
@@ -1276,14 +1086,16 @@
             "type": "integer",
             "format": "int32"
           },
-          "totalPrice": {
-            "type": "number",
-            "format": "double"
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
       },
       "Category": {
+        "required": [
+          "name"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -1291,8 +1103,9 @@
             "format": "int32"
           },
           "name": {
-            "type": "string",
-            "nullable": true
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
           },
           "subCategories": {
             "type": "array",
@@ -1349,6 +1162,14 @@
         "additionalProperties": false
       },
       "Product": {
+        "required": [
+          "brand",
+          "categoryId",
+          "description",
+          "name",
+          "price",
+          "subCategoryId"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -1356,26 +1177,33 @@
             "format": "int32"
           },
           "name": {
-            "type": "string",
-            "nullable": true
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
           },
           "brand": {
-            "type": "string",
-            "nullable": true
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
           },
           "price": {
+            "minimum": 0.01,
             "type": "number",
             "format": "double"
           },
           "description": {
-            "type": "string",
-            "nullable": true
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string"
           },
           "imageUrl": {
             "type": "string",
+            "format": "uri",
             "nullable": true
           },
           "quantity": {
+            "maximum": 2147483647,
+            "minimum": 0,
             "type": "integer",
             "format": "int32"
           },
@@ -1394,6 +1222,8 @@
             "$ref": "#/components/schemas/SubCategory"
           },
           "soldCount": {
+            "maximum": 2147483647,
+            "minimum": 0,
             "type": "integer",
             "format": "int32",
             "nullable": true,
@@ -1403,6 +1233,10 @@
         "additionalProperties": false
       },
       "SubCategory": {
+        "required": [
+          "categoryId",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -1410,8 +1244,9 @@
             "format": "int32"
           },
           "name": {
-            "type": "string",
-            "nullable": true
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
           },
           "categoryId": {
             "type": "integer",

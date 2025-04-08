@@ -12,14 +12,10 @@ namespace Ecomm_Database_Class.Model
     {   
         [Key]
         public int CartItemID { get; set; }
-
         public int ProductID { get; set; }  
 
         [Required(ErrorMessage = "Quantity is required.")]
-        public int Quantity { get; set; }  
-
-        [Required(ErrorMessage = "Total Price is required.")]
-        public decimal TotalPrice { get; set; } 
-
+        public int Quantity { get; set; }
+        public bool IsActive { get; set; } = false;  
     }
 }

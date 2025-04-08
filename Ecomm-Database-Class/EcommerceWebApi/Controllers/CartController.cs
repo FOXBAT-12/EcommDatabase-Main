@@ -23,7 +23,7 @@ namespace EcommerceWebApi.Controllers
         {
             try
             {
-                List<Cart> carts = await Task.Run(() => _cartOperations.GetAllCarts());
+                List<Cart> carts = _cartOperations.GetAllCarts();
                 return Ok(carts);
             }
             catch (Exception)
@@ -60,7 +60,7 @@ namespace EcommerceWebApi.Controllers
                 try
                 {
                     await _cartOperations.AddCartAsync(cart);
-                    return CreatedAtAction(nameof(GetCartById), new { id = cart.CartItemID }, cart);
+                    return Ok(cart);
                 }
                 catch (Exception ex)
                 {
