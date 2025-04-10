@@ -25,7 +25,7 @@ namespace EcommerceWebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAll(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             var product = await _repo.GetAllAsync(id);
             if (product == null) return NotFound();
@@ -34,9 +34,16 @@ namespace EcommerceWebApi.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Create(Product product)
-        {
+        {try
+            {
+
             var created = await _repo.AddAsync(product);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { error = $"An error occurred while creating the product: {ex.Message}" });
+            }
         }
 
         [HttpPut("{id}")]
@@ -61,12 +68,12 @@ namespace EcommerceWebApi.Controllers
             return Ok(products);
         }
 
-        //[HttpGet("bestsellers/{count}")]
-        //public async Task<IActionResult> GetBestSellers(int count)
-        //{
-        //    var products = await _repo.GetBestSellingProductsAsync(count);
-        //    return Ok(products);
-        //}
+        [HttpGet("bestsellers/{count}")]
+        public async Task<IActionResult> GetBestSellers(int count)
+        {
+            var products = await _repo.GetBestSellingProductsAsync(count);
+            return Ok(products);
+        }
         
     }
 }
