@@ -10,47 +10,42 @@ using System.Threading.Tasks;
 
 namespace Ecomm_Database_Class.Repository
 {
-    public class SubCategoryRepository : ISubCategoryRepository
+    public class ProductImageRepo : IProductImageRepo
+{
+    private readonly AppDbContext _context;
+
+    public ProductImageRepo(AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context;
+    }
 
-        public SubCategoryRepository(AppDbContext context)
+    public async Task<IEnumerable<ProductImage>> GetProductImagesAsync(int productId)
+    {
+        return await _context.ProductImages
+        .Where(pi => pi.ProductId == productId)
+        .ToListAsync();
+    }
+
+    public async Task<ProductImage> GetProductImageAsync(int id)
+    {
+        return await _context.ProductImages.FindAsync(id);
+    }
+
+    public async Task AddProductImageAsync(ProductImage productImage)
+    {
+        await _context.ProductImages.AddAsync(productImage);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteProductImageAsync(int id)
+    {
+        var productImage = await _context.ProductImages.FindAsync(id);
+        if (productImage != null)
         {
-            _context = context;
-        }
-
-        public async Task<IEnumerable<SubCategory>> GetAllAsync() =>
-            await _context.SubCategories.ToListAsync();
-
-        public async Task<SubCategory?> GetAllAsync(int id) =>
-            await _context.SubCategories.FindAsync(id);
-
-        public async Task<SubCategory> AddAsync(SubCategory subCategory)
-        {
-            _context.SubCategories.Add(subCategory);
+            _context.ProductImages.Remove(productImage);
             await _context.SaveChangesAsync();
-            return subCategory;
-        }
-
-        public async Task<SubCategory?> UpdateAsync(SubCategory subCategory)
-        {
-            var existing = await _context.SubCategories.FindAsync(subCategory.SubCategoryId);
-            if (existing == null) return null;
-
-            _context.Entry(existing).CurrentValues.SetValues(subCategory);
-            await _context.SaveChangesAsync();
-            return existing;
-        }
-
-        public async Task<bool> DeleteAsync(int id)
-        {
-            var subCategory = await _context.SubCategories.FindAsync(id);
-            if (subCategory == null) return false;
-
-            _context.SubCategories.Remove(subCategory);
-            await _context.SaveChangesAsync();
-            return true;
         }
     }
+}
 
 }
