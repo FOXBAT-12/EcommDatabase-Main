@@ -27,7 +27,7 @@ namespace Ecomm_Database_Class.Repository
 
         public async Task<SubCategory> AddAsync(SubCategory subCategory)
         {
-            _context.SubCategories.Add(subCategory);
+            _dbcontext.SubCategories.Add(subCategory);
             await _dbcontext.SaveChangesAsync();
             return subCategory;
         }
