@@ -12,43 +12,43 @@ namespace Ecomm_Database_Class
 {
     public class SubCategoryRepository : ISubCategoryRepository
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext _dbcontext;
 
-        public SubCategoryRepository(AppDbContext context)
+        public SubCategoryRepository(AppDbContext dbcontext)
         {
-            _context = context;
+            _dbcontext = dbcontext;
         }
 
         public async Task<IEnumerable<SubCategory>> GetAllAsync() =>
-            await _context.SubCategories.ToListAsync();
+            await _dbcontext.SubCategories.ToListAsync();
 
         public async Task<SubCategory?> GetAllAsync(int id) =>
-            await _context.SubCategories.FindAsync(id);
+            await _dbcontext.SubCategories.FindAsync(id);
 
         public async Task<SubCategory> AddAsync(SubCategory subCategory)
         {
             _context.SubCategories.Add(subCategory);
-            await _context.SaveChangesAsync();
+            await _dbcontext.SaveChangesAsync();
             return subCategory;
         }
 
         public async Task<SubCategory?> UpdateAsync(SubCategory subCategory)
         {
-            var existing = await _context.SubCategories.FindAsync(subCategory.SubCategoryId);
+            var existing = await _dbcontext.SubCategories.FindAsync(subCategory.SubCategoryId);
             if (existing == null) return null;
 
-            _context.Entry(existing).CurrentValues.SetValues(subCategory);
-            await _context.SaveChangesAsync();
+            _dbcontext.Entry(existing).CurrentValues.SetValues(subCategory);
+            await _dbcontext.SaveChangesAsync();
             return existing;
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var subCategory = await _context.SubCategories.FindAsync(id);
+            var subCategory = await _dbcontext.SubCategories.FindAsync(id);
             if (subCategory == null) return false;
 
-            _context.SubCategories.Remove(subCategory);
-            await _context.SaveChangesAsync();
+            _dbcontext.SubCategories.Remove(subCategory);
+            await _dbcontext.SaveChangesAsync();
             return true;
         }
     }
