@@ -25,7 +25,7 @@ namespace EcommerceWebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetAll(int id)
         {
             var product = await _repo.GetAllAsync(id);
             if (product == null) return NotFound();
