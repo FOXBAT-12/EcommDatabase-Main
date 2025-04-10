@@ -1,4 +1,4 @@
-﻿using Ecomm_Database_Class.Data;
+using Ecomm_Database_Class.Data;
 using Ecomm_Database_Class.Model;
 using Ecomm_Database_Class.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +22,7 @@ namespace Ecomm_Database_Class.Repository
         public async Task<IEnumerable<SubCategory>> GetAllAsync() =>
             await _context.SubCategories.ToListAsync();
 
-        public async Task<SubCategory?> GetByIdAsync(int id) =>
+        public async Task<SubCategory?> GetAllAsync(int id) =>
             await _context.SubCategories.FindAsync(id);
 
         public async Task<SubCategory> AddAsync(SubCategory subCategory)
@@ -34,7 +34,7 @@ namespace Ecomm_Database_Class.Repository
 
         public async Task<SubCategory?> UpdateAsync(SubCategory subCategory)
         {
-            var existing = await _context.SubCategories.FindAsync(subCategory.Id);
+            var existing = await _context.SubCategories.FindAsync(subCategory.SubCategoryId);
             if (existing == null) return null;
 
             _context.Entry(existing).CurrentValues.SetValues(subCategory);
