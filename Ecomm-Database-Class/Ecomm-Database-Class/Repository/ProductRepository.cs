@@ -1,4 +1,4 @@
-﻿using Ecomm_Database_Class.Data;
+using Ecomm_Database_Class.Data;
 using Ecomm_Database_Class.Model;
 using Ecomm_Database_Class.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +22,7 @@ namespace Ecomm_Database_Class.Repository
         public async Task<IEnumerable<Product>> GetAllAsync() =>
             await _context.Products.ToListAsync();
 
-        public async Task<Product?> GetByIdAsync(int id) =>
+        public async Task<Product?> GetAllAsync(int id) =>
             await _context.Products.FindAsync(id);
 
         public async Task<Product> AddAsync(Product product)
@@ -55,12 +55,12 @@ namespace Ecomm_Database_Class.Repository
         public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(int categoryId) =>
             await _context.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
 
-        public async Task<IEnumerable<Product>> GetBestSellingProductsAsync(int topN) =>
-            await _context.Products.OrderByDescending(p => p.SoldCount).Take(topN).ToListAsync();
+        //    public async Task<IEnumerable<Product>> GetBestSellingProductsAsync(int topN) =>
+        //        await _context.Products.OrderByDescending(p => p.SoldCount).Take(topN).ToListAsync();
 
-        public Task<IEnumerable<Product>> SearchFilterSortAsync(string? search, int? categoryId, string? sortBy)
-        {
-            throw new NotImplementedException();
-        }
+        //    public Task<IEnumerable<Product>> SearchFilterSortAsync(string? search, int? categoryId, string? sortBy)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
     }
 }
