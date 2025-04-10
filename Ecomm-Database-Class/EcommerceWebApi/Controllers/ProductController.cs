@@ -1,4 +1,4 @@
-﻿using Ecomm_Database_Class.Model;
+using Ecomm_Database_Class.Model;
 using Ecomm_Database_Class.Repository.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +27,7 @@ namespace EcommerceWebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var product = await _repo.GetByIdAsync(id);
+            var product = await _repo.GetAllAsync(id);
             if (product == null) return NotFound();
             return Ok(product);
         }
@@ -61,12 +61,12 @@ namespace EcommerceWebApi.Controllers
             return Ok(products);
         }
 
-        [HttpGet("bestsellers/{count}")]
-        public async Task<IActionResult> GetBestSellers(int count)
-        {
-            var products = await _repo.GetBestSellingProductsAsync(count);
-            return Ok(products);
-        }
-
+        //[HttpGet("bestsellers/{count}")]
+        //public async Task<IActionResult> GetBestSellers(int count)
+        //{
+        //    var products = await _repo.GetBestSellingProductsAsync(count);
+        //    return Ok(products);
+        //}
+        
     }
 }
