@@ -24,64 +24,63 @@ namespace Ecomm_Database_Class.Data
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=ECommerce;Integrated Security=True;TrustServerCertificate=true");
-        }
+{
+    optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=ECommerce;Integrated Security=True;TrustServerCertificate=true");
+}
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
     base.OnModelCreating(modelBuilder);
 
-modelBuilder.Entity<Product>()
-    .HasOne<Category>()
-    .WithMany()
-    .HasForeignKey(sc => sc.CategoryId)
-    .OnDelete(DeleteBehavior.Cascade);
+    modelBuilder.Entity<Product>()
+        .HasOne<Category>() 
+        .WithMany()
+        .HasForeignKey(sc => sc.CategoryId)
+        .OnDelete(DeleteBehavior.Cascade);
 
-modelBuilder.Entity<Product>()
-    .HasOne<SubCategory>()
-    .WithMany()
-    .HasForeignKey(sc => sc.SubCategoryId)
-    .OnDelete(DeleteBehavior.NoAction);
+    modelBuilder.Entity<Product>()
+        .HasOne<SubCategory>()
+        .WithMany()
+        .HasForeignKey(sc => sc.SubCategoryId)
+        .OnDelete(DeleteBehavior.NoAction);
 
-// Seed Category
-modelBuilder.Entity<Category>().HasData(
-    new Category { CategoryId = 1, Name = "Luxury" },
-    new Category { CategoryId = 2, Name = "Casual" }
-);
+    // Seed Category
+    modelBuilder.Entity<Category>().HasData(
+        new Category { CategoryId = 1, Name = "Luxury" },
+        new Category { CategoryId = 2, Name = "Casual" }
+    );
 
-// Seed SubCategory
-modelBuilder.Entity<SubCategory>().HasData(
-    new SubCategory { SubCategoryId = 1, Name = "Analog", CategoryId = 1 },
-    new SubCategory { SubCategoryId = 2, Name = "Digital", CategoryId = 2 }
-);
+    // Seed SubCategory
+    modelBuilder.Entity<SubCategory>().HasData(
+        new SubCategory { SubCategoryId = 1, Name = "Analog", CategoryId = 1 },
+        new SubCategory { SubCategoryId = 2, Name = "Digital", CategoryId = 2 }
+    );
 
-// Seed Product
-modelBuilder.Entity<Product>().HasData(
-    new Product
-    {
-        Id = 1,
-        Name = "Omega Seamaster",
-        Description = "Luxury dive watch",
-        Price = 2999.99M,
-        Brand = "Omega",
-        SoldCount = 120,
-        CategoryId = 1,
-        SubCategoryId = 1
-    },
-    new Product
-    {
-        Id = 2,
-        Name = "Casio G-Shock",
-        Description = "Rugged digital watch",
-        Price = 149.99M,
-        Brand = "Casio",
-        SoldCount = 500,
-        CategoryId = 2,
-        SubCategoryId = 2
-    }
-);
-
+    // Seed Product
+    modelBuilder.Entity<Product>().HasData(
+        new Product
+        {
+            Id = 1,
+            Name = "Omega Seamaster",
+            Description = "Luxury dive watch",
+            Price = 2999.99M,
+            Brand = "Omega",
+            SoldCount = 120,
+            CategoryId = 1,
+            SubCategoryId = 1
+        },
+        new Product
+        {
+            Id = 2,
+            Name = "Casio G-Shock",
+            Description = "Rugged digital watch",
+            Price = 149.99M,
+            Brand = "Casio",
+            SoldCount = 500,
+            CategoryId = 2,
+            SubCategoryId = 2
+        }
+    );
 }
 
 
