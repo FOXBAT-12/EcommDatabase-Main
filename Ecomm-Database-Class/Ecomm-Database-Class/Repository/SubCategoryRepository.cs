@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ecomm_Database_Class.Repository
+namespace Ecomm_Database_Class
 {
     public class SubCategoryRepository : ISubCategoryRepository
     {
