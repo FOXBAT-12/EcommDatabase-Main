@@ -10,42 +10,55 @@ using System.Threading.Tasks;
 
 namespace Ecomm_Database_Class.Repository
 {
-    public class ProductImageRepo : IProductImageRepo
+    public class ProductRepository : IProductRepository
     {
         private readonly AppDbContext _context;
 
-        public ProductImageRepo(AppDbContext context)
+        public ProductRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<ProductImage>> GetProductImagesAsync(int productId)
-        {
-            return await _context.ProductImages
-            .Where(pi => pi.ProductId == productId)
-            .ToListAsync();
-        }
+        public async Task<IEnumerable<Product>> GetAllAsync() =>
+            await _context.Products.ToListAsync();
 
-        public async Task<ProductImage> GetProductImageAsync(int id)
-        {
-            return await _context.ProductImages.FindAsync(id);
-        }
+        public async Task<Product?> GetAllAsync(int id) =>
+            await _context.Products.FindAsync(id);
 
-        public async Task AddProductImageAsync(ProductImage productImage)
+        public async Task<Product> AddAsync(Product product)
         {
-            await _context.ProductImages.AddAsync(productImage);
+            _context.Products.Add(product);
             await _context.SaveChangesAsync();
+            return product;
         }
 
-        public async Task DeleteProductImageAsync(int id)
+        public async Task<Product?> UpdateAsync(Product product)
         {
-            var productImage = await _context.ProductImages.FindAsync(id);
-            if (productImage != null)
-            {
-                _context.ProductImages.Remove(productImage);
-                await _context.SaveChangesAsync();
-            }
+            var existing = await _context.Products.FindAsync(product.Id);
+            if (existing == null) return null;
+
+            _context.Entry(existing).CurrentValues.SetValues(product);
+            await _context.SaveChangesAsync();
+            return existing;
         }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return false;
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(int categoryId) =>
+            await _context.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
+
+        public async Task<IEnumerable<Product>> GetBestSellingProductsAsync(int topN) =>
+            await _context.Products.OrderByDescending(p => p.SoldCount).Take(topN).ToListAsync();
+
+        
     }
 
 }
