@@ -26,7 +26,7 @@ namespace EcommerceWebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var subCategory = await _repo.GetByIdAsync(id);
+            var subCategory = await _repo.GetAllAsync(id);
             return subCategory == null ? NotFound() : Ok(subCategory);
         }
 
@@ -34,13 +34,13 @@ namespace EcommerceWebApi.Controllers
         public async Task<IActionResult> Create(SubCategory subCategory)
         {
             var created = await _repo.AddAsync(subCategory);
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+            return CreatedAtAction(nameof(GetById), new { id = created.SubCategoryId }, created);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, SubCategory subCategory)
         {
-            if (id != subCategory.Id) return BadRequest();
+            if (id != subCategory.SubCategoryId) return BadRequest();
             var updated = await _repo.UpdateAsync(subCategory);
             return updated == null ? NotFound() : Ok(updated);
         }
