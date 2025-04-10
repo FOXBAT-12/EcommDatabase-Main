@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ecomm_Database_Class.Model
 {
-    public class Product
+        public class Product
 {
     [Key]
     public int Id { get; set; }
@@ -27,20 +27,20 @@ namespace Ecomm_Database_Class.Model
     [StringLength(500, ErrorMessage = "Description can't be longer than 500 characters")]
     public string Description { get; set; } = string.Empty;
     [Url(ErrorMessage = "Invalid URL format")]
-    public string ImageUrl { get; set; } = string.Empty;
+    public string? ImageUrl { get; set; }
     [Range(0, int.MaxValue, ErrorMessage = "Quantity must be a non-negative number")]
     public int Quantity { get; set; }
     [Required(ErrorMessage = "CategoryId is required")]
 
+    [ForeignKey("Category")]
     public int CategoryId { get; set; }
-    [ForeignKey("CategoryId")]
-    [ValidateNever]
-    public Category? Category { get; set; }
+    
     [Required(ErrorMessage = "SubCategoryId is required")]
+    [ForeignKey("SubCategory")]
     public int SubCategoryId { get; set; }
-  
-    public SubCategory? SubCategory { get; set; }
+
     [Range(0, int.MaxValue, ErrorMessage = "SoldCount must be a non-negative number")]
     public int? SoldCount { get; internal set; }
-}
+    
+    }
 }
