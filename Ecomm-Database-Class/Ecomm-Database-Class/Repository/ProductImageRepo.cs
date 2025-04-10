@@ -10,55 +10,47 @@ using System.Threading.Tasks;
 
 namespace Ecomm_Database_Class.Repository
 {
-    public class ProductRepository : IProductRepository
+    public class SubCategoryRepository : ISubCategoryRepository
     {
         private readonly AppDbContext _context;
 
-        public ProductRepository(AppDbContext context)
+        public SubCategoryRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync() =>
-            await _context.Products.ToListAsync();
+        public async Task<IEnumerable<SubCategory>> GetAllAsync() =>
+            await _context.SubCategories.ToListAsync();
 
-        public async Task<Product?> GetAllAsync(int id) =>
-            await _context.Products.FindAsync(id);
+        public async Task<SubCategory?> GetAllAsync(int id) =>
+            await _context.SubCategories.FindAsync(id);
 
-        public async Task<Product> AddAsync(Product product)
+        public async Task<SubCategory> AddAsync(SubCategory subCategory)
         {
-            _context.Products.Add(product);
+            _context.SubCategories.Add(subCategory);
             await _context.SaveChangesAsync();
-            return product;
+            return subCategory;
         }
 
-        public async Task<Product?> UpdateAsync(Product product)
+        public async Task<SubCategory?> UpdateAsync(SubCategory subCategory)
         {
-            var existing = await _context.Products.FindAsync(product.Id);
+            var existing = await _context.SubCategories.FindAsync(subCategory.SubCategoryId);
             if (existing == null) return null;
 
-            _context.Entry(existing).CurrentValues.SetValues(product);
+            _context.Entry(existing).CurrentValues.SetValues(subCategory);
             await _context.SaveChangesAsync();
             return existing;
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null) return false;
+            var subCategory = await _context.SubCategories.FindAsync(id);
+            if (subCategory == null) return false;
 
-            _context.Products.Remove(product);
+            _context.SubCategories.Remove(subCategory);
             await _context.SaveChangesAsync();
             return true;
         }
-
-        public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(int categoryId) =>
-            await _context.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
-
-        public async Task<IEnumerable<Product>> GetBestSellingProductsAsync(int topN) =>
-            await _context.Products.OrderByDescending(p => p.SoldCount).Take(topN).ToListAsync();
-
-        
     }
 
 }
