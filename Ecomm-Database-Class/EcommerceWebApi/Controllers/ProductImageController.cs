@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceWebApi.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class ProductImageController : ControllerBase
@@ -60,5 +59,4 @@ namespace EcommerceWebApi.Controllers
             return NoContent();
         }
     }
-
 }
